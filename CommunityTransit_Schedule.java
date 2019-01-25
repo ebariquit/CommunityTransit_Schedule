@@ -34,6 +34,7 @@ public class CommunityTransit_Schedule {
         Scanner reader = new Scanner(System.in);
         System.out.print("Enter the 1st letter of your destination: ");
         String initial_str = reader.next();
+        System.out.println();
         char initial_lwr = initial_str.charAt(0);
         char initial = Character.toUpperCase(initial_lwr);		// Make the initial UpperCase
         // Lists the matches
@@ -50,7 +51,7 @@ public class CommunityTransit_Schedule {
             	while(matcher2.find()){
             			System.out.println("Bus Number: " + matcher2.group(2));
             	}
-                System.out.println("+++++++++++++++++++++++++++++++++++");
+                System.out.println("\n+++++++++++++++++++++++++++++++++++\n");
         	}        	
         }
         
@@ -60,7 +61,8 @@ public class CommunityTransit_Schedule {
         String route = reader.next();
         reader.close();
         URL url = new URL("https://www.communitytransit.org/busservice/schedules/route/"+route);
-        System.out.println("\nThe link for your route is: " + url + "\n");
+        System.out.println("The link for your route is: " + url + "\n");
+        System.out.println("+++++++++++++++++++++++++++++++++++");
         // Open and read next page, parse into a string
         ct = url.openConnection();
 		ct.setRequestProperty("user-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 "
@@ -73,19 +75,20 @@ public class CommunityTransit_Schedule {
         }
         in2.close();
         // List the stops
-        Pattern pattern3 = Pattern.compile("<h2>.*?<small>(.*?)</small></h2>"		// find the route's direction
+        Pattern pattern3 = Pattern.compile("<thead>.*?<h2>(.*?)<small>(.*?)</small></h2>"		// find the route's direction
         									+ "(.*?)</thead>", Pattern.DOTALL);
         Matcher matcher3 = pattern3.matcher(text2);
         while(matcher3.find()){
-        	System.out.println("Direction: " +matcher3.group(1));
+        	System.out.println("\nDirection: " +matcher3.group(2));
+        	System.out.println("[On a "+matcher3.group(1)+"]\n");
             Pattern pattern4 = Pattern.compile("<p>(.*?)</p>");			// find the description for each stop
-            Matcher matcher4 = pattern4.matcher(matcher3.group(2));
+            Matcher matcher4 = pattern4.matcher(matcher3.group(3));
             int countStops = 1;
             while(matcher4.find()){
             	System.out.println("Stop #"+countStops+": "+matcher4.group(1));
             	countStops++;
             }
-            System.out.println("+++++++++++++++++++++++++++++++++++");
+            System.out.println("\n+++++++++++++++++++++++++++++++++++");
         }
 	} /* Close Main */
 } /* Close Class */
