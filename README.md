@@ -1,4 +1,4 @@
-# CommunityTransit_Schedule
+# CommunityTransitSchedule
 
 Bellevue College
 
